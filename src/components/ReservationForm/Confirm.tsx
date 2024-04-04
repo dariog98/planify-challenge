@@ -9,7 +9,7 @@ const ConfirmTab : FC = () => {
 
     return (
         <div className='d-flex flex-column justify-content-between gap-3 h-100'>
-            <div className='overflow-auto'>
+            <div className='overflow-x-auto'>
                 <Status title='Confirm reservation' percent='75%'/>
 
                 <div className='card rounded-0'>
@@ -20,10 +20,16 @@ const ConfirmTab : FC = () => {
                 </div>
             </div>
 
-            <Pagination
-                handlePrev={() => handleTab(FORM_TABS.DateTime)}
-                handleNext={handleConfirm}
-            />
+            <Pagination>
+                <div className='d-flex justify-content-between'>
+                    <button className='btn btn-secondary' onClick={() => handleTab(FORM_TABS.DateTime)}>
+                        Prev
+                    </button>
+                    <button className='btn btn-secondary' onClick={handleConfirm}>
+                        Confirm
+                    </button>
+                </div>
+            </Pagination>
         </div>
     )
 }

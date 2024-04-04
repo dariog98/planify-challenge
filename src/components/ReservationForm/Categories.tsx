@@ -4,6 +4,7 @@ import { ReservationFormContext } from '../providers/ReservationFormProvider'
 import { FORM_TABS } from '../../constants/formTabs'
 import { Category, Service } from '../../types'
 import Status from './Status'
+import Pagination from './Pagination'
 
 interface ServiceProps {
     data: Service
@@ -20,8 +21,8 @@ const ServiceItem : FC<ServiceProps> = ({ data }) => {
                 <span>{data.description}</span>
                 <div className='d-flex justify-content-end'>
                     <button
-                        className={`btn btn-secondary ${isCurrent ? 'active' : '' }`}
-                        onClick={() => handleService(isCurrent ? undefined : data)}
+                        className={`btn btn-system ${isCurrent ? 'active' : '' }`}
+                        onClick={() => handleService(data)}
                     >
                         {isCurrent ? 'Selected' : 'Select' }
                     </button>
@@ -59,7 +60,7 @@ const CategoriesTab : FC = () => {
     return (
         <div className='d-flex flex-column justify-content-between gap-3 h-100'>
             
-            <div className='overflow-auto'>
+            <div className='overflow-x-auto'>
                 <Status title='Select service' percent='25%'/>
                 <div className='card rounded-0 border-secondary'>
                     <div className='card-body'>
@@ -79,13 +80,18 @@ const CategoriesTab : FC = () => {
                 </div>
             </div>
 
-            <div className='d-flex justify-content-between'>
-                <div></div>
-                {
-                    currentService &&
-                    <button className='btn btn-secondary' onClick={() => handleTab(FORM_TABS.DateTime)}>Next</button>
-                }
-            </div>
+            {/*
+            <Pagination
+                lastButton={{ description: 'Next', action: () => handleTab(FORM_TABS.DateTime)}}
+            />
+            */}
+            <Pagination>
+                <div className='d-flex justify-content-end'>
+                    <button className={`btn btn-secondary ${currentService ? '' : 'disabled'}`} onClick={() => handleTab(FORM_TABS.DateTime)}>
+                        Next
+                    </button>
+                </div>
+            </Pagination>
 
         </div>
     )

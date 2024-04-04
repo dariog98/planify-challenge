@@ -1,14 +1,9 @@
 import { FC } from 'react'
-import { Container, Navbar } from './components'
-import { ReservationForm } from './pages'
+import {  RouterProvider } from 'react-router-dom'
+import Router from './Router'
 
 const App : FC = () => {
-    return (
-        <Container>
-            <ReservationForm/>
-            <Navbar/>
-        </Container>
-    )
+    return <RouterProvider router={Router}/>
 }
 
 export default App

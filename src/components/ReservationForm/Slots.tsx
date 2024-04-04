@@ -24,8 +24,8 @@ const SlotsDate : FC<{data: Slots}>= ({ data }) => {
                         return (
                             <button
                                 key={index}
-                                className={`btn btn-secondary ${currentDateTime ? isCurrent ? 'active' : 'disabled' : ''}`}
-                                onClick={() => handleDateTime(isCurrent ? undefined : dt)}
+                                className={`btn btn-system ${isCurrent ? 'active' : ''}`}
+                                onClick={() => handleDateTime(dt)}
                             >
                                 {time}
                             </button>
@@ -38,12 +38,12 @@ const SlotsDate : FC<{data: Slots}>= ({ data }) => {
 }
 
 const SlotsTab = () => {
-    const { handleTab } = useContext(ReservationFormContext) 
+    const { handleTab, currentDateTime } = useContext(ReservationFormContext) 
     const { data } = useSlots()
     
     return (
         <div className='d-flex flex-column justify-content-between gap-3 h-100'>
-            <div className='overflow-auto'>
+            <div className='overflow-x-auto'>
                 <Status title='Select time' percent='50%'/>
                 <div className='card rounded-0'>
                     <div className='card-body'>
@@ -58,11 +58,25 @@ const SlotsTab = () => {
                     </div>
                 </div>
             </div>
-            
+
+            {/*
             <Pagination
-                handlePrev={() => handleTab(FORM_TABS.Service)}
-                handleNext={() => handleTab(FORM_TABS.Confirm)}
+                firstButton={{ description: 'Prev', action: () => handleTab(FORM_TABS.Service)}}
+                lastButton={{ description: 'Next', action: () => handleTab(FORM_TABS.Confirm)}}
             />
+            */}
+
+            <Pagination>
+                <div className='d-flex justify-content-between'>
+                    <button className='btn btn-secondary' onClick={() => handleTab(FORM_TABS.Service)}>
+                        Prev
+                    </button>
+                    <button className={`btn btn-secondary ${currentDateTime ? '' : 'disabled'}`} onClick={() => handleTab(FORM_TABS.Confirm)}>
+                        Next
+                    </button>
+                </div>
+            </Pagination>
+
         </div>
     )
 }

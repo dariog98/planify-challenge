@@ -1,6 +1,7 @@
 import { Context, FC, ReactElement, ReactNode, createContext, useState } from 'react'
 import { FORM_TABS } from '../../constants/formTabs'
-import { Service } from '../../types'
+import { Reservation, Service } from '../../types'
+import { useLocalStorage } from '../../hooks'
 
 interface ReservationFormProviderProps {
     children: string | ReactElement | ReactNode
@@ -14,6 +15,7 @@ interface ReservationForm {
     currentDateTime: Date | undefined
     handleDateTime: (v: Date | undefined) => void
     handleConfirm: () => void
+    handleNew: () => void
 }
 
 export const ReservationFormContext : Context<ReservationForm> = createContext<ReservationForm>({
@@ -23,19 +25,31 @@ export const ReservationFormContext : Context<ReservationForm> = createContext<R
     handleService: () => {},
     currentDateTime: undefined,
     handleDateTime: () => {},
-    handleConfirm: () => {}
+    handleConfirm: () => {},
+    handleNew: () => {}
 })
 
 const ReservationFormProvider : FC<ReservationFormProviderProps> = ({ children }) => {
+    const reservationStorage = useLocalStorage<Reservation[]>('RESERVATIONS')
     const [tab, setTab] = useState<number>(FORM_TABS.Service)
     const [service, setService] = useState<Service | undefined>()
     const [dateTime, setDateTime] = useState<Date | undefined>()
 
     const handleConfirm = () => {
-        console.log({
+        const newReservation : Reservation = {
             service,
             dateTime
-        })
+        }
+        const reservations : Reservation[] = reservationStorage.getItem() ?? []
+        reservations.push(newReservation)
+        reservationStorage.setItem(reservations)
+        setTab(FORM_TABS.Success)
+    }
+
+    const handleNew = () => {
+        setService(undefined)
+        setDateTime(undefined)
+        setTab(FORM_TABS.Service)
     }
 
     const reservationForm : ReservationForm = {
@@ -45,7 +59,8 @@ const ReservationFormProvider : FC<ReservationFormProviderProps> = ({ children }
         handleService: setService,
         currentDateTime: dateTime,
         handleDateTime: setDateTime,
-        handleConfirm
+        handleConfirm,
+        handleNew
     }
 
     return (
