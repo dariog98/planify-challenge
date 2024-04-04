@@ -3,25 +3,40 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import APP_ROUTES from '../constants/routes'
 
-const Navbar : FC = () => {
+interface NavButtonProps {
+    route: string
+    icon: IconProp
+    text: string
+}
+
+const NavButton : FC<NavButtonProps> = ({ route, icon, text }) => {
     const location = useLocation()
-    console.log(location)
+    const isActive = location.pathname === route
 
     return (
+        <Link to={route} className={`nav-button ${isActive ? 'active' : ''}`}>
+            <FontAwesomeIcon icon={icon} size='2x'/>
+            {text}
+        </Link>
+    )
+}
+
+const Navbar : FC = () => {
+    return (
         <nav className='d-flex gap-3 justify-content-center'>
-
-            <Link to={APP_ROUTES.Home} className={`nav-button ${location.pathname === APP_ROUTES.Home ? 'active' : ''}`}>
-                <FontAwesomeIcon icon={faMugHot} size='2x'/>
-                Reservar
-            </Link>
-
-            <Link to={APP_ROUTES.MyReservations} className={`nav-button ${location.pathname === APP_ROUTES.MyReservations ? 'active' : ''}`}>
-                <FontAwesomeIcon icon={faMugHot} size='2x'/>
-                Mis turnos
-            </Link>
-
+            <NavButton
+                route={APP_ROUTES.Home}
+                icon={faMugHot}
+                text='Reservation'
+            />
+            <NavButton
+                route={APP_ROUTES.MyReservations}
+                icon={faMugHot}
+                text='My reservations'
+            />
         </nav>
     )
 }

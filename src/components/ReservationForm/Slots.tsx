@@ -10,7 +10,7 @@ const SlotsDate : FC<{data: Slots}>= ({ data }) => {
     const { currentDateTime, handleDateTime } = useContext(ReservationFormContext)
     const [yy, mm, dd] : number[] = data.date.split('-').map((v : string) => Number(v))
     const date : Date = new Date(Date.UTC(yy, mm - 1, dd))
-
+    
     return (
         <>
             <span>{date.toLocaleString('en', { month: 'long', day: '2-digit', timeZone: 'UTC' })}</span>
@@ -18,9 +18,9 @@ const SlotsDate : FC<{data: Slots}>= ({ data }) => {
                 {
                     data.availableTimeslots.map((time : string, index : number) => {
                         const [hh, mm] : number[] = time.split(':').map((v : string) => Number(v))
-                        const dt : Date = new Date(Date.UTC(yy, mm - 1, dd, hh, mm))
+                        const dt : Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), hh, mm))
                         const isCurrent = currentDateTime?.getTime() == dt.getTime()
-
+                        console.log({hh, mm, date: dt.toISOString()})
                         return (
                             <button
                                 key={index}
@@ -58,13 +58,6 @@ const SlotsTab = () => {
                     </div>
                 </div>
             </div>
-
-            {/*
-            <Pagination
-                firstButton={{ description: 'Prev', action: () => handleTab(FORM_TABS.Service)}}
-                lastButton={{ description: 'Next', action: () => handleTab(FORM_TABS.Confirm)}}
-            />
-            */}
 
             <Pagination>
                 <div className='d-flex justify-content-between'>

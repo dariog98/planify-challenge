@@ -36,20 +36,20 @@ const CategoryItem : FC<{ data: Category }> = ({ data }) => {
     const { show, toggleShow } = useAccordion()
 
     return (
-            <div className='accordion-item'>
-                <h2 className='accordion-header'>
-                    <button className={`accordion-button m-0 p-2 ${show ? '' : 'collapsed'}`} onClick={toggleShow}>
-                        {data.description}
-                    </button>
-                </h2>
-                <div className={`accordion-collapse ${show ? 'collapsion show' : 'collapse'}`}>
-                    <div className='accordion-body d-flex flex-column gap-3'>
-                        {
-                            data.services.map(service => <ServiceItem key={service.id} data={service}/>)
-                        }
-                    </div>
+        <div className='accordion-item'>
+            <h2 className='accordion-header'>
+                <button className={`accordion-button m-0 p-2 ${show ? '' : 'collapsed'}`} onClick={toggleShow}>
+                    {data.description}
+                </button>
+            </h2>
+            <div className={`accordion-collapse ${show ? 'collapsion show' : 'collapse'}`}>
+                <div className='accordion-body d-flex flex-column gap-3'>
+                    {
+                        data.services.map(service => <ServiceItem key={service.id} data={service}/>)
+                    }
                 </div>
             </div>
+        </div>
     )
 }
 
@@ -80,11 +80,6 @@ const CategoriesTab : FC = () => {
                 </div>
             </div>
 
-            {/*
-            <Pagination
-                lastButton={{ description: 'Next', action: () => handleTab(FORM_TABS.DateTime)}}
-            />
-            */}
             <Pagination>
                 <div className='d-flex justify-content-end'>
                     <button className={`btn btn-secondary ${currentService ? '' : 'disabled'}`} onClick={() => handleTab(FORM_TABS.DateTime)}>
