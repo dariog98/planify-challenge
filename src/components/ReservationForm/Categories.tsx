@@ -5,6 +5,8 @@ import { FORM_TABS } from '../../constants/formTabs'
 import { Category, Service } from '../../types'
 import Status from './Status'
 import Pagination from './Pagination'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 
 interface ServiceProps {
     data: Service
@@ -15,7 +17,7 @@ const ServiceItem : FC<ServiceProps> = ({ data }) => {
     const isCurrent = currentService?.id == data.id
 
     return (
-        <div className='card'>
+        <div className='card rounded-0'>
             <div className='card-body'> 
                 <h6>{data.name}</h6>
                 <span>{data.description}</span>
@@ -31,7 +33,7 @@ const ServiceItem : FC<ServiceProps> = ({ data }) => {
         </div>
     )
 }
-
+/*
 const CategoryItem : FC<{ data: Category }> = ({ data }) => {
     const { show, toggleShow } = useAccordion()
 
@@ -52,6 +54,30 @@ const CategoryItem : FC<{ data: Category }> = ({ data }) => {
         </div>
     )
 }
+*/
+
+const CategoryItem : FC<{ data: Category }> = ({ data }) => {
+    const { show, toggleShow } = useAccordion()
+
+    return (
+        <>
+            <div className='category-header px-2 py-1' onClick={toggleShow}>
+                {data.description}
+                <div>
+                <FontAwesomeIcon icon={show ? faMinus : faPlus}/>
+                </div>
+            </div>
+
+            <div className={`category-body ${show && 'show'}`}>
+                <div className='d-flex flex-column gap-3'>
+                    {
+                        data.services.map(service => <ServiceItem key={service.id} data={service}/>)
+                    }
+                </div>
+            </div>
+        </>
+    )
+}
 
 const CategoriesTab : FC = () => {
     const { data } = useCategories()
@@ -65,7 +91,7 @@ const CategoriesTab : FC = () => {
                 <div className='card rounded-0 border-secondary'>
                     <div className='card-body'>
                         <span>Categories</span>
-                        <div className='accordion'>
+                        <div className='d-flex flex-column gap-3'>
                             {
                                 data && 
                                 data.map((category: Category, index: number) =>

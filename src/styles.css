@@ -58,3 +58,18 @@
 .nav-button:active, .nav-button.active {
     color: #6558f5;
 }
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d8dee3;
+}
+
+.category-body {
+    display: none;
+}
+
+.category-body.show {
+    display: block;
+}
