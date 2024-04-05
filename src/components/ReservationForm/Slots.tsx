@@ -20,7 +20,6 @@ const SlotsDate : FC<{data: Slots}>= ({ data }) => {
                         const [hh, mm] : number[] = time.split(':').map((v : string) => Number(v))
                         const dt : Date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), hh, mm))
                         const isCurrent = currentDateTime?.getTime() == dt.getTime()
-                        console.log({hh, mm, date: dt.toISOString()})
                         return (
                             <button
                                 key={index}

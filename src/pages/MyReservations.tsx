@@ -23,7 +23,7 @@ const MyReservations = () => {
                 </div>
                 :
                 <div className='h-100 d-flex flex-column justify-content-center align-items-center'>
-                    There is no reservations yet
+                    There are no reservations yet
                 </div>
             }
         </main>
