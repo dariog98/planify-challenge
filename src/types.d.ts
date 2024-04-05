@@ -20,9 +20,3 @@ export interface Reservation {
     service: Service | undefined
     dateTime: Date | undefined
 }
-
-export interface PaginationButton {
-    description: string
-    action?: () => void
-    isDisabled?: () => boolean
-}
